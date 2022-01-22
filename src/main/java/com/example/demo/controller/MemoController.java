@@ -23,8 +23,8 @@ public class MemoController {
         return memoRepository.save(memo);
     }
 
-    @RequestMapping("/hello")
-    public ModelAndView test () {
+    @GetMapping("/hello")
+    public ModelAndView getTest () {
 
 //        Memo memo = new Memo(requestDto);
 //        memoRepository.save(memo);
@@ -32,6 +32,17 @@ public class MemoController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("test.html");
         return modelAndView;
+    }
+
+    @PostMapping("/hello")
+    public Memo createTest (@RequestBody MemoRequestDto requestDto) {
+
+        Memo memo = new Memo(requestDto);
+        return memoRepository.save(memo);
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("test.html");
+//        return modelAndView;
     }
 
     @RequestMapping("/detail")

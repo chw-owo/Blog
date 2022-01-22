@@ -2,28 +2,28 @@
 <html lang="en">
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<title>Cho-owo</title>
+    <title>Cho-owo</title>
 
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<meta name="description" content="Personal Website Template">
-<meta name="keywords" content="Personal, Website Template, Minimal HTML Template, Freelancer">
-<meta name="author" content="khai tawng">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="Personal Website Template">
+    <meta name="keywords" content="Personal, Website Template, Minimal HTML Template, Freelancer">
+    <meta name="author" content="khai tawng">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/animate.css">
-<link rel="stylesheet" href="css/magnific-popup.css">
-<link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
 
-<!-- Main css -->
-<link rel="stylesheet" href="css/style.css">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
-<script>
+    <script>
 
 
         // 미리 작성된 영역 - 수정하지 않으셔도 됩니다.
@@ -89,11 +89,11 @@
         // 메모를 불러와서 보여줍니다.
         function getMessages() {
             // 1. 기존 메모 내용을 지웁니다.
-            $('#cards-box').empty();
+            //$('#cards-box').empty();
             // 2. 메모 목록을 불러와서 HTML로 붙입니다.
             $.ajax({
                 type: 'GET',
-                url: '/api/memos',
+                url: '/hello',
                 success: function (response) {
                     for (let i = 0; i < response.length; i++) {
                         let message = response[i];
@@ -154,16 +154,15 @@
             // 5. POST /api/memos 에 data를 전달합니다.
             $.ajax({
                 type: "POST",
-                url: "/api/memos",
+                url: "/hello",
                 contentType: "application/json", // JSON 형식으로 전달함을 알리기
                 data: JSON.stringify(data),
+                dataType:"json",
                 success: function (response) {
                     alert('메시지가 성공적으로 작성되었습니다.');
                     window.location.reload();
                 }
             });
-
-
         }
 
         // 메모를 수정합니다.
@@ -247,13 +246,6 @@
 <section id="contact">
     <div class="container">
         <div class="row">
-
-            <!--               <div class="col-md-12 col-sm-12">-->
-            <!--                    <div class="wow fadeInUp section-title" data-wow-delay="0.2s">-->
-            <!--                         <h2>You got projects?</h2>-->
-            <!--                         <p>Lorem ipsum dolor sit amet, consectetur venenatis tincidunt.</p>-->
-            <!--                    </div>-->
-            <!--               </div>-->
 
             <div class="col-md-12 col-sm-12">
                 <!-- CONTACT FORM HERE -->
