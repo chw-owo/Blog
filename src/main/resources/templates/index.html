@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 
     <meta charset="UTF-8">
@@ -13,16 +13,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/animate.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+    <style>
+        .contents {
+            padding: 0px 23px;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+
+        .contents div.edit {
+            display: none;
+        }
+
+        .contents textarea.te-edit {
+            border-right: none;
+            border-top: none;
+            border-left: none;
+            resize: none;
+            border-bottom: 1px solid #212529;
+            width: 100%;
+            font-family: 'Spoqa Han Sans';
+        }
+
+    </style>
+
     <script>
         // 미리 작성된 영역 - 수정하지 않으셔도 됩니다.
         // 사용자가 내용을 올바르게 입력하였는지 확인합니다.
@@ -113,14 +136,19 @@
                 <div class="row">
 
                     <div class="col-md-12 col-sm-12">
-                        <div class="wow fadeInUp section-title" data-wow-delay="0.5s">
-                            <h2 onclick="location.href='/de/${id}'">${username}</h2>
-                            <p>${contents}</p>
+                        <div class="wow fadeInUp section-title contents" data-wow-delay="0.5s">
+                            <div id="1-contents" class="text">
+                                <h2 onclick="location.href='/de/${id}'">${username}</h2>
+                                <p>${contents}</p>
+                            </div>
+                            <div id="1-editarea" class="edit">
+                              <textarea id="1-textarea" class="te-edit" name="" id="" cols="100" rows="10"></textarea>
+                            </div>
                         </div>
                         <div class="footer">
-                                <img id="1-edit" onclick="editPost('1')" class="icon-start-edit" src="images/edit.png" alt="">
-                                <img id="1-delete" onclick="deleteOne('1')" class="icon-delete" src="images/delete.png" alt="">
-                                <img id="1-submit" onclick="submitEdit('1')" class="icon-end-edit" src="images/done.png" alt="">
+                                <img id="1-edit" onclick="editPost('1')" class="icon-start-edit" src="/images/edit.png" alt="">
+                                <img id="1-delete" onclick="deleteOne('1')" class="icon-delete" src="/images/delete.png" alt="">
+                                <img id="1-submit" onclick="submitEdit('1')" class="icon-end-edit" src="/images/done.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -228,7 +256,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a class="smoothScroll" href="#home">Home</a></li>
                     <li><a class="smoothScroll" href="#about">About Jack Doe</a></li>
-                    <li><a class="smoothScroll" href="#work">My Works</a></li>
+                    <li><a class="smoothScroll" href="/hello">Posting</a></li>
                     <li><a class="smoothScroll" href="#contact">Contact</a></li>
                 </ul>
             </div>
@@ -244,7 +272,7 @@
             <div class="row">
 
                 <div class="col-md-offset-1 col-md-2 col-sm-3">
-                    <img src="images/profile-image.jpg" class="wow fadeInUp img-responsive img-circle" data-wow-delay="0.2s" alt="about image">
+                    <img src="/images/profile-image.jpg" class="wow fadeInUp img-responsive img-circle" data-wow-delay="0.2s" alt="about image">
                 </div>
 
                 <div class="col-md-8 col-sm-8">
@@ -271,7 +299,7 @@
                         <div class="area-write">
                             <textarea class="field" placeholder="write your article" name="contents" id="contents" cols = "100" rows="10"></textarea>
                             <!--                            <button class="btn btn-danger" onclick="writePost()">작성하기</button>-->
-                            <img src="images/send.png" alt="" onclick="writePost()">
+                            <img src="/images/send.png" alt="" onclick="writePost()">
                         </div>
                     </div>
                 </div>
@@ -294,9 +322,9 @@
                             <p>Lorem ipsum dolor sit amet, consectetur venenatis tincidunt.</p>
                         </div>
                         <div class="footer">
-                            <img id="1-edit" onclick="editPost('1')" class="icon-start-edit" src="images/edit.png" alt="">
-                            <img id="1-delete" onclick="deleteOne('1')" class="icon-delete" src="images/delete.png" alt="">
-                            <img id="1-submit" onclick="submitEdit('1')" class="icon-end-edit" src="images/done.png" alt="">
+                            <img id="1-edit" onclick="editPost('1')" class="icon-start-edit" src="/images/edit.png" alt="">
+                            <img id="1-delete" onclick="deleteOne('1')" class="icon-delete" src="/images/delete.png" alt="">
+                            <img id="1-submit" onclick="submitEdit('1')" class="icon-end-edit" src="/images/done.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -400,13 +428,13 @@
 
 
 <!-- SCRIPTS -->
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/smoothscroll.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/magnific-popup-options.js"></script>
-<script src="js/wow.min.js"></script>
-<script src="js/custom.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/smoothscroll.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/magnific-popup-options.js"></script>
+<script src="/js/wow.min.js"></script>
+<script src="/js/custom.js"></script>
 </body>
 
 </html>

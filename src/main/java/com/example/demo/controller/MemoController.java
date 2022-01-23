@@ -54,7 +54,7 @@ public class MemoController {
         System.out.println("==============================================");
         System.out.println("==============================================");
         System.out.println("==============================================");
-        System.out.println(memo.get().getId().getClass().getSimpleName());
+        System.out.println(modelAndView);
         System.out.println("==============================================");
         System.out.println("==============================================");
         System.out.println("==============================================");
@@ -72,6 +72,13 @@ public class MemoController {
     @DeleteMapping("/api/memos/{id}")
     public Long deleteMemo(@PathVariable Long id) {
         memoRepository.deleteById(id);
+        return id;
+    }
+
+    @PutMapping("/api/memos/{id}")
+    public Long editMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto) {
+        Optional<Memo> memo = memoRepository.findById(id);
+        memo.get().update(requestDto);
         return id;
     }
 
