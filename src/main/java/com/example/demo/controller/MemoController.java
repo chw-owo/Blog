@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+
 public class MemoController {
 
     private final MemoRepository memoRepository;
@@ -25,10 +27,6 @@ public class MemoController {
 
     @GetMapping("/hello")
     public ModelAndView getTest () {
-
-//        Memo memo = new Memo(requestDto);
-//        memoRepository.save(memo);
-
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("test.html");
         return modelAndView;
@@ -39,22 +37,21 @@ public class MemoController {
 
         Memo memo = new Memo(requestDto);
         return memoRepository.save(memo);
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("test.html");
-//        return modelAndView;
     }
 
-    @RequestMapping("/detail")
-    public ModelAndView detailPage() {
+    @GetMapping("/detail/{idx}")
+    public ModelAndView detailPage(@PathVariable("idx") Long idx) {
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("detail.html");
+        Optional<Memo> memo = memoRepository.findById(idx);
+        ModelAndView modelAndView = new ModelAndView("/detail.html");
+        modelAndView.addObject("memo", memo);
         return modelAndView;
+
     }
 
     @GetMapping("/api/memos")
     public List<Memo> getMemos() {
+
         return memoRepository.findAllByOrderByModifiedAtDesc();
     }
 
