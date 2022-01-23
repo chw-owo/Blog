@@ -4,9 +4,11 @@ import com.example.demo.domain.Memo;
 import com.example.demo.domain.MemoRepository;
 import com.example.demo.domain.MemoRequestDto;
 import com.example.demo.service.MemoService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -39,12 +41,24 @@ public class MemoController {
         return memoRepository.save(memo);
     }
 
-    @GetMapping("/detail/{idx}")
-    public ModelAndView detailPage(@PathVariable("idx") Long idx) {
+    @GetMapping("/de/{idx}")
+    public ModelAndView detailPage(@PathVariable("idx") Long Id) {
 
-        Optional<Memo> memo = memoRepository.findById(idx);
+        Optional<Memo> memo = memoRepository.findById(Id);
+
         ModelAndView modelAndView = new ModelAndView("/detail.html");
-        modelAndView.addObject("memo", memo);
+        modelAndView.addObject("idx",memo.get().getId());
+        modelAndView.addObject("username", memo.get().getUsername());
+        modelAndView.addObject("contents", memo.get().getContents());
+
+        System.out.println("==============================================");
+        System.out.println("==============================================");
+        System.out.println("==============================================");
+        System.out.println(memo.get().getId().getClass().getSimpleName());
+        System.out.println("==============================================");
+        System.out.println("==============================================");
+        System.out.println("==============================================");
+
         return modelAndView;
 
     }
