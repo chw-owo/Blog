@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MemoRequestDto {
-    private String username;
+    private String title;
     private String contents;
 }

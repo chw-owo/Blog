@@ -27,37 +27,30 @@ public class MemoController {
         return memoRepository.save(memo);
     }
 
-    @GetMapping("/hello")
+    @GetMapping("/postingpage")
     public ModelAndView getTest () {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("test.html");
+        modelAndView.setViewName("post.html");
         return modelAndView;
     }
 
-    @PostMapping("/hello")
+    @PostMapping("/postingpage")
     public Memo createTest (@RequestBody MemoRequestDto requestDto) {
 
         Memo memo = new Memo(requestDto);
         return memoRepository.save(memo);
     }
 
-    @GetMapping("/de/{idx}")
-    public ModelAndView detailPage(@PathVariable("idx") Long Id) {
+    @GetMapping("/detailpage/{id}")
+    public ModelAndView detailPage(@PathVariable("id") Long Id) {
 
         Optional<Memo> memo = memoRepository.findById(Id);
 
         ModelAndView modelAndView = new ModelAndView("/detail.html");
-        modelAndView.addObject("idx",memo.get().getId());
-        modelAndView.addObject("username", memo.get().getUsername());
+        modelAndView.addObject("id",memo.get().getId());
+        modelAndView.addObject("title", memo.get().getTitle());
         modelAndView.addObject("contents", memo.get().getContents());
 
-        System.out.println("==============================================");
-        System.out.println("==============================================");
-        System.out.println("==============================================");
-        System.out.println(modelAndView);
-        System.out.println("==============================================");
-        System.out.println("==============================================");
-        System.out.println("==============================================");
 
         return modelAndView;
 
@@ -76,10 +69,14 @@ public class MemoController {
     }
 
     @PutMapping("/api/memos/{id}")
-    public Long editMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto) {
-        Optional<Memo> memo = memoRepository.findById(id);
-        memo.get().update(requestDto);
-        return id;
+    public Memo editMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto) {
+        Memo memo = memoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("no such data"));
+
+        memo.update(requestDto);
+        System.out.println(id);
+
+        return memoRepository.save(memo);
     }
 
 }
