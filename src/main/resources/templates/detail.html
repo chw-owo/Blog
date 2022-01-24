@@ -126,6 +126,9 @@
                width: 14px;
                height: 18px;
           }
+          .comment-control{
+               padding-bottom: 15px;
+          }
 
      </style>
 
@@ -193,12 +196,14 @@
                $(`#title`).hide();
                $(`#contents-area`).hide();
                $(`#edit-btn`).hide();
+               $(`#comment`).hide();
           }
 
           function hideEdits(id) {
                $(`#editarea`).hide();
                $(`#submit-btn`).hide();
                $(`#delete-btn`).hide();
+
 
                $(`#contents`).show();
                $(`#edit-btn`).show();
@@ -264,7 +269,6 @@
                     data: JSON.stringify(data),
                     success: function (response) {
                          alert('메시지 변경에 성공하였습니다.');
-                         alert(id);
                          window.location.reload();
                     }
                });
@@ -330,12 +334,31 @@
                               <h3 id="contents-title" class="wow fadeInUp detailcontents contents" data-wow-delay="0.2s">[[${contents}]]</h3>
                          </div>
                          <div id="editarea" class="edit">
-                              <textarea id="titlearea" class="te-edit" name="" cols="100" rows="5"></textarea>
-                              <textarea id="textarea" class="te-edit" name="" cols="100" rows="5"></textarea>
-                         </div>
+                              <section id="contact">
+                                   <div class="container">
+                                        <div class="row">
+
+                                             <div class="col-md-12 col-sm-12">
+                                                  <div class="wow fadeInUp" data-wow-delay="0.2s">
+                                                       <form id = "contact-form">
+                                                            <div class="col-md-4 col-sm-4">
+                                                                 <input type="text" id="titlearea" class="te-edit form-control" name="title"></textarea>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12">
+                                                                 <textarea id="textarea" class="te-edit form-control" name="contents" rows="20"></textarea>
+
+                                                            </div>
+                                                       </form>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </section>
                     </div>
                </div>
 
+               </div>
+          </div>
      </section>
      <section id="edit-section">
           <div class="container">
@@ -350,7 +373,7 @@
      </section>
 </div>
 <!-- CONTACT SECTION -->
-<section id="contact">
+<section id="comment">
      <div class="container">
           <div class="row">
 
@@ -363,15 +386,15 @@
                <div class="col-md-12 col-sm-12">
                     <!-- CONTACT FORM HERE -->
                     <div class="wow fadeInUp" data-wow-delay="0.2s">
-                         <form id="contact-form">
-                              <div class="col-md-4 col-sm-4">
-                                   <input type="title" class="form-control" id="title" name="name" placeholder="Name">
+                         <form id="comment-form">
+                              <div class="col-md-4 col-sm-4 comment-control">
+                                   <input type="title" class="form-control comment-control" id="title" name="name" placeholder="Name">
                               </div>
-                              <div class="col-md-12 col-sm-12">
-                                   <textarea class="form-control" id="contents" rows="5" name="message" placeholder="Message"></textarea>
+                              <div class="col-md-12 col-sm-12 comment-control">
+                                   <textarea class="form-control comment-control" id="contents" rows="5" name="message" placeholder="Message"></textarea>
                               </div>
-                              <div class="col-md-offset-9 col-md-3 col-sm-offset-3 col-sm-6">
-                                   <button id="submit" type="submit" class="form-control" name="submit">Send Message</button>
+                              <div class="col-md-offset-9 col-md-3 col-sm-offset-3 col-sm-6 comment-control">
+                                   <button id="submit" type="submit" class="form-control comment-control" name="submit">Send Message</button>
                               </div>
                          </form>
                     </div>

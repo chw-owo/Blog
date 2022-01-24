@@ -74,7 +74,6 @@ public class MemoController {
                 .orElseThrow(() -> new IllegalArgumentException("no such data"));
 
         memo.update(requestDto);
-        System.out.println(id);
 
         return memoRepository.save(memo);
     }
