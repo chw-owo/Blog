@@ -36,7 +36,7 @@
           }
           .detailtitle{
                font-size: 40px;
-           }
+          }
 
           .contents div.edit {
                display: none;
@@ -80,8 +80,10 @@
           .contents div.edit {
                display: none;
           }
+
           .edit {
                display: none;
+               padding-top: 150px;
           }
 
           .contents textarea.te-edit {
@@ -92,6 +94,12 @@
                border-bottom: 1px solid #212529;
                width: 100%;
                font-family: 'Spoqa Han Sans';
+          }
+
+          .contents-area{
+               /*position: absolute;*/
+               /*top: 0px;*/
+               /*right: 0px;*/
           }
 
           .footer {
@@ -126,6 +134,10 @@
                width: 14px;
                height: 18px;
           }
+          .comment-control{
+               padding-bottom: 15px;
+          }
+
           .comment-control{
                padding-bottom: 15px;
           }
@@ -329,9 +341,9 @@
           <div class="container">
                <div class="row">
                     <div class="col-md-8 col-sm-8">
-                         <div id ="contents-area" class="text title">
-                              <h1 id="contents-text" class="wow fadeInUp detailtitle title" data-wow-delay="0.2s">[[${title}]]</h1>
-                              <h3 id="contents-title" class="wow fadeInUp detailcontents contents" data-wow-delay="0.2s">[[${contents}]]</h3>
+                         <div id ="contents-area" class="text contents-area">
+                              <h1 id="contents-text" class="detailtitle title" >[[${title}]]</h1>
+                              <h3 id="contents-title" class="detailcontents contents" >[[${contents}]]</h3>
                          </div>
                          <div id="editarea" class="edit">
                               <section id="contact">
@@ -354,8 +366,8 @@
                                         </div>
                                    </div>
                               </section>
+                         </div>
                     </div>
-               </div>
 
                </div>
           </div>
@@ -378,7 +390,7 @@
           <div class="row">
 
                <div class="col-md-12 col-sm-12">
-                    <div class="wow fadeInUp section-title" data-wow-delay="0.2s">
+                    <div class="wow  section-title" data-wow-delay="0.2s">
                          <p>Leave comment</p>
                     </div>
                </div>

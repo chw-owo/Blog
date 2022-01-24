@@ -46,7 +46,7 @@ public class MemoController {
 
         Optional<Memo> memo = memoRepository.findById(Id);
 
-        ModelAndView modelAndView = new ModelAndView("/detail.html");
+        ModelAndView modelAndView = new ModelAndView("detail.html");
         modelAndView.addObject("id",memo.get().getId());
         modelAndView.addObject("title", memo.get().getTitle());
         modelAndView.addObject("contents", memo.get().getContents());
