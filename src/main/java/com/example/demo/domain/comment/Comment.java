@@ -1,11 +1,13 @@
 package com.example.demo.domain.comment;
 
 import com.example.demo.domain.Timestamped;
+import com.example.demo.domain.memo.Memo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor // 기본생성자를 만듭니다.
 @Getter
@@ -16,11 +18,22 @@ public class Comment extends Timestamped { // 생성,수정 시간을 자동으�
     @Id
     private Long id;
 
+//    @JoinColumn(name = "memoId")
+//    @ManyToOne(fetch=FetchType.EAGER)
+//    private Memo memo;
+
     @Column(nullable = false)
     private String username;
 
     @Column(nullable = false)
     private String comment;
+
+    private LocalDateTime createDate;
+
+    @PrePersist
+    public void createDate(){
+        this.createDate = LocalDateTime.now();
+    }
 
     public Comment(String username, String comment) {
         this.username = username;

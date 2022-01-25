@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.comment.Comment;
+import com.example.demo.domain.comment.CommentRepository;
+import com.example.demo.domain.comment.CommentRequestDto;
 import com.example.demo.domain.memo.Memo;
 import com.example.demo.domain.memo.MemoRepository;
 import com.example.demo.domain.memo.MemoRequestDto;
@@ -12,14 +15,15 @@ import javax.transaction.Transactional;
 @Service
 public class CommentService {
 
-    private final MemoRepository memoRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
-    public Long update(Long id, MemoRequestDto requestDto) {
-        Memo memo = memoRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+    public Long update(Long id, CommentRequestDto requestDto) {
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("댓글이 존재하지 않습니다.")
         );
-        memo.update(requestDto);
-        return memo.getId();
+        comment.update(requestDto);
+        return comment.getId();
     }
+
 }

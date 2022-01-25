@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor // 기본생성자를 만듭니다.
 @Getter
@@ -21,6 +22,12 @@ public class Memo extends Timestamped { // 생성,수정 시간을 자동으로 
 
     @Column(nullable = false)
     private String contents;
+
+    private LocalDateTime createDate;
+    @PrePersist
+    public void createDate(){
+        this.createDate = LocalDateTime.now();
+    }
 
     public Memo(String title, String contents) {
         this.title = title;
