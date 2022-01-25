@@ -1,10 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.Memo;
-import com.example.demo.domain.MemoRepository;
-import com.example.demo.domain.MemoRequestDto;
+import com.example.demo.domain.memo.Memo;
+import com.example.demo.domain.memo.MemoRepository;
+import com.example.demo.domain.memo.MemoRequestDto;
 import com.example.demo.service.MemoService;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;

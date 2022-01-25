@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.domain.memo;
 
 import com.example.demo.domain.Timestamped;
 import lombok.Getter;

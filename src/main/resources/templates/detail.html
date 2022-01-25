@@ -287,7 +287,8 @@
           }
 
           // 메모를 삭제합니다.
-          function deleteOne(id) {
+          function deleteOne(idx) {
+               let id = [[${id}]];
                $.ajax({
                     type: "DELETE",
                     url: `/api/memos/${id}`,

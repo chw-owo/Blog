@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class MemoService {
+public class CommentService {
 
     private final MemoRepository memoRepository;
 
