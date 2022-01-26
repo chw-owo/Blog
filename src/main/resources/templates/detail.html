@@ -147,6 +147,10 @@
                border-bottom-color: #f2f2f2 !important;
                box-shadow: #9d9d9d;
           }
+          .username{
+               font-size: 10px;
+               color: #3F3F3F;
+          }
 
      </style>
 
@@ -176,14 +180,15 @@
                                    let commentId = message['id'];
                                    let username = message['username'];
                                    let comment = message['comment'];
-                                   addHTML(commentId, username, comment);
+                                   let modifiedAt = message['modifiedAt'];
+                                   addHTML(commentId, username, comment, modifiedAt);
                               }
                          }
                     }
                })
           }
 
-          function addHTML(commentId, username, comment) {
+          function addHTML(commentId, username, comment, modifiedAt) {
                // 1. HTML 태그를 만듭니다.
                let tempHtml =`<section class = "work-container">
             <div class="container">
@@ -193,7 +198,6 @@
                         <div class="wow fadeInUp section-title contents" data-wow-delay="0.2s">
                             <div id="comment-area-${commentId}" class = "comment-area">
                                  <div id="1-contents" class="text title">
-                                     <div id="username-${commentId}">${username}</div>
                                      <div id="comment-${commentId}">${comment}</div>
                                  </div>
                             </div>
@@ -203,10 +207,9 @@
                                    </div>
                                    <div class="col-md-12 col-sm-12 comment-control">
                                         <textarea id="edit-comment-${commentId}" class="te-edit form-control comment-control box" name="contents" rows="3"></textarea>
-
                                    </div>
                             </form>
-
+                            <div class="username" > 작성자: ${username} 최종작성일: ${modifiedAt}</div>
                             <div class="footer">
                               <img id="comment-edit-btn" onclick="editComment(${commentId})" class="icon-start-edit" src="/images/edit.png" alt="">
                               <img id="comment-delete-btn" onclick="deleteOneComment(${commentId})" class="icon-delete" src="/images/delete.png" alt="">
@@ -466,7 +469,8 @@
                     <div class="col-md-8 col-sm-8">
                          <div id ="contents-area" class="text contents-area">
                               <h1 id="contents-title" class="detailtitle title" >[[${title}]]</h1>
-                              <h3 id="contents-username" class="username" >[[${memoUsername}]]</h3>
+                              <div th:if="${memoCreatedAt == memoModifiedAt}" class="username" > 작성자: [[${memoUsername}]] 작성일: [[${memoCreatedAt}]]</div>
+                              <div th:unless="${memoCreatedAt == memoModifiedAt}" class="username" > 작성자: [[${memoUsername}]] 작성일: [[${memoCreatedAt}]] 수정일: [[${memoModifiedAt}]]</div>
                               <h3 id="contents-text" class="detailcontents contents" >[[${contents}]]</h3>
                          </div>
                          <div id="editarea" class="edit">
@@ -479,7 +483,11 @@
                                                        <form id = "contact-form">
                                                             <div class="col-md-4 col-sm-4">
                                                                  <input type="text"id="titlearea" class="te-edit form-control" name="title"></textarea>
-                                                                 <div class="username" >[[${memoUsername}]]</div>
+                                                                 {% if memoCreatedAt == memoModifiedAt %}
+                                                                      <h3 class="username" > 작성자: [[${memoUsername}]] 작성일: [[${memoCreatedAt}]] </h3>
+                                                                 {% else %}
+                                                                      <h3 class="username" > 작성자: [[${memoUsername}]] 작성일: [[${memoCreatedAt}]] 수정일: [[${memoModifiedAt}]] </h3>
+                                                                 {% end if %}
                                                             </div>
                                                             <div class="col-md-12 col-sm-12">
                                                                  <textarea id="textarea" class="te-edit form-control" name="contents" rows="20"></textarea>

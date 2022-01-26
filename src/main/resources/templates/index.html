@@ -64,6 +64,11 @@
             line-height: 0px;
             font-size: 25px;
         }
+        .username{
+            font-size: 10px;
+            color: #3F3F3F;
+            padding-top: 20px;
+        }
 
     </style>
 
@@ -100,16 +105,18 @@
                         let message = response[i];
                         let id = message['id'];
                         let title = message['title'];
+                        let username = message['username'];
                         let contents = message['contents'];
+                        let createdAt = message['createdAt'];
                         let modifiedAt = message['modifiedAt'];
-                        addHTML(id, title, contents, modifiedAt);
+                        addHTML(id, title, username, contents, createdAt, modifiedAt);
                     }
                 }
             })
         }
 
         // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
-        function addHTML(id, title, contents, modifiedAt) {
+        function addHTML(id, title, username, contents, createAt, modifiedAt) {
             // 1. HTML 태그를 만듭니다.
             let tempHtml = `        <section id="work" class = "work-container" onclick="location.href='/detailpage/${id}'">
             <div class="container">
@@ -120,7 +127,7 @@
                             <div id="1-contents" class="text title">
                                 <div class="title">${title}</div>
                             </div>
-
+                            <div th:if="${createAt == modifiedAt}" class="username" > 작성자: ${username} 최종작성일: ${modifiedAt}</div>
                     </div>
                 </div>
             </div>

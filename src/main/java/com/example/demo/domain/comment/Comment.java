@@ -29,7 +29,6 @@ public class Comment extends Timestamped { // 생성,수정 시간을 자동으�
 
 
     private LocalDateTime createDate;
-
     @PrePersist
     public void createDate(){
         this.createDate = LocalDateTime.now();
