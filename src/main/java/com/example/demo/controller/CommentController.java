@@ -32,13 +32,13 @@ public class CommentController {
     }
 
     @DeleteMapping("/api/comment/{id}")
-    public Long deleteComment(@PathVariable Long id) {
+    public Long deleteComment(@PathVariable("id") Long id) {
         commentRepository.deleteById(id);
         return id;
     }
 
     @PutMapping("/api/comment/{id}")
-    public Comment editComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto) {
+    public Comment editComment(@PathVariable("id") Long id, @RequestBody CommentRequestDto requestDto) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("no such data"));
 

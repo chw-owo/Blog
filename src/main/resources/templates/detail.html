@@ -112,7 +112,7 @@
                position: absolute;
                bottom: 14px;
                right: 55px;
-               width: 18px;
+               wmemoIdth: 18px;
                height: 18px;
           }
 
@@ -144,6 +144,12 @@
           .work-container{
                height: 50px;
           }
+          .comment-edit-area{
+               display: none;
+               height: 50px;
+          }
+          .comment-id{
+          }
 
 
      </style>
@@ -170,30 +176,48 @@
                          for (let i = 0; i < response.length; i++) {
                               let message = response[i];
                               let memoId = message['memoId'];
-                              if(memoId == [[${id}]]){
+                              if(memoId == [[${memoId}]]){
+                                   let commentId = message['id'];
                                    let username = message['username'];
                                    let comment = message['comment'];
-                                   addHTML(username, comment);
+                                   addHTML(commentId, username, comment);
                               }
                          }
                     }
                })
           }
 
-          function addHTML(username, comment) {
+          function addHTML(commentId, username, comment) {
                // 1. HTML 태그를 만듭니다.
-               let id = [[${id}]];
-               let tempHtml =`<section id="work" class = "work-container" onclick="location.href='/detailpage/${id}'">
+               let tempHtml =`<section class = "work-container">
             <div class="container">
                 <div class="row">
 
                     <div class="col-md-12 col-sm-12">
                         <div class="wow fadeInUp section-title contents" data-wow-delay="0.2s">
-                            <div id="1-contents" class="text title">
-                                <div class="title">${username}</div>
-                                <div class="title">${comment}</div>
+                            <div id="comment-area-${commentId}" class = "comment-area">
+                                 <div id="1-contents" class="text title">
+                                     <div class="username-${commentId}">${username}</div>
+                                     <div class="comment-${commentId}">${comment}</div>
+                                 </div>
+                            </div>
+                            <form id="comment-edit-area-${commentId}" class ="comment-edit-area">
+                                   <div class="col-md-4 col-sm-4 comment-control">
+                                        <input type="text" id="edit-username-${commentId}" class="te-edit form-control comment-control" name="title">
+                                   </div>
+                                   <div class="col-md-12 col-sm-12 comment-control">
+                                        <textarea id="edit-comment-${commentId}" class="te-edit form-control comment-control" name="contents" rows="3"></textarea>
+
+                                   </div>
+                            </form>
+
+                            <div class="footer">
+                              <img id="comment-edit-btn" onclick="editComment(${commentId})" class="icon-start-edit" src="/images/edit.png" alt="">
+                              <img id="comment-delete-btn" onclick="deleteComment(${commentId})" class="icon-delete" src="/images/delete.png" alt="">
+                              <img id="comment-submit-btn" onclick="submitComment(${commentId})" class="icon-end-edit" src="/images/done.png" alt="">
                             </div>
 
+                          </div>
                     </div>
                 </div>
             </div>
@@ -216,19 +240,15 @@
                return true;
           }
 
-          // 수정 버튼을 눌렀을 때, 기존 작성 내용을 textarea 에 전달합니다.
-          // 숨길 버튼을 숨기고, 나타낼 버튼을 나타냅니다.
-          // 수정 버튼을 눌렀을 때, 기존 작성 내용을 textarea 에 전달합니다.
-          // 숨길 버튼을 숨기고, 나타낼 버튼을 나타냅니다.
-          function editPost(id) {
-               showEdits(id);
+          function editPost() {
+               showEdits();
                let contents = $(`#contents-text`).text().trim();
                let title = $(`#contents-title`).text().trim();
                $(`#textarea`).val(contents);
                $(`#titlearea`).val(title);
           }
 
-          function showEdits(id) {
+          function showEdits() {
                $(`#editarea`).show();
                $(`#submit-btn`).show();
                $(`#delete-btn`).show();
@@ -236,29 +256,17 @@
                $(`#title`).hide();
                $(`#contents-area`).hide();
                $(`#edit-btn`).hide();
-               $(`#comment`).hide();
+               $(`#contents`).hide();
           }
 
-          function hideEdits(id) {
-               $(`#editarea`).hide();
-               $(`#submit-btn`).hide();
-               $(`#delete-btn`).hide();
-
-
-               $(`#contents`).show();
-               $(`#edit-btn`).show();
-          }
-          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          // 여기서부터 코드를 작성해주시면 됩니다.
-
-          function submitEdit(idx) {
+          function submitEdit() {
                // 1. 작성 대상 메모의 title과 contents 를 확인합니다.
                let title = $(`#titlearea`).val().trim();
                let contents = $(`#textarea`).val().trim();
 
-               let id = [[${id}]];
+               let memoId = [[${memoId}]];
 
-               // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+               // 2. 작성한 메모가 올바른지 isValmemoIdContents 함수를 통해 확인합니다.
                if (isValidContents(contents) == false) {
                     return;
                }
@@ -272,7 +280,7 @@
                // 4. data를 전달합니다.
                $.ajax({
                     type: "PUT",
-                    url: `/api/memos/${id}`,
+                    url: `/api/memos/${memoId}`,
                     contentType: "application/json",
                     data: JSON.stringify(data),
                     success: function (response) {
@@ -281,23 +289,27 @@
                });
           }
 
-          // 메모를 삭제합니다.
-          function deleteOne(idx) {
-               let id = [[${id}]];
+
+          function deleteOne() {
+               let memoId = [[${memoId}]];
                $.ajax({
                     type: "DELETE",
-                    url: `/api/memos/${id}`,
+                    url: `/api/memos/${memoId}`,
                     success: function (response) {
                          alert('메시지 삭제에 성공하였습니다.');
+                         window.location.assign("/");
                     }
                })
           }
-          function writeComment(){
-               let memoId = [[${id}]];
-               let username = $(`#comment-username-${memoId}`).val().trim();
-               let comment = $(`#comment-contents-${memoId}`).val().trim();
 
-               // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+          //============================================================
+
+          function writeComment(){
+               let memoId = [[${memoId}]];
+               let username = $(`#comment-username-${memoId}`).val();
+               let comment = $(`#comment-contents-${memoId}`).val();
+
+               // 2. 작성한 메모가 올바른지 isValmemoIdContents 함수를 통해 확인합니다.
                if (isValidContents(comment) == false) {
                     comment = "Thanks for your article :)";
                }
@@ -321,6 +333,69 @@
                });
 
           }
+
+          function editComment(commentId) {
+               showCommentEdits(commentId);
+               let username = $(`#username-${commentId}`).val();
+               let comment = $(`#comment-${commentId}`).val();
+               $(`#edit-username-${commentId}`).val(username);
+               $(`#edit-comment-${commentId}`).val(comment);
+          }
+
+          function showCommentEdits(commentId) {
+               $(`#comment-edit-area-${commentId}`).show();
+               $(`#comment-submit-btn`).show();
+               $(`#comment-delete-btn`).show();
+
+               $(`#comment-area-${commentId}`).hide();
+               $(`#comment-edit-btn`).hide();
+          }
+
+          function submitComment(commentId) {
+               let memoId = [[${memoId}]];
+               // 1. 작성 대상 메모의 title과 contents 를 확인합니다.
+               let username = $(`#edit-username-${commentId}`).val();
+               let comment = $(`#edit-comment-${commentId}`).val();
+               //let commentId = $(`#comment-id`).val();
+
+               // 2. 작성한 메모가 올바른지 isValmemoIdContents 함수를 통해 확인합니다.
+               if (isValidContents(username) == false) {
+                    return;
+               }
+               if (isValidContents(comment) == false) {
+                    return;
+               }
+
+               // 3. 전달할 data JSON으로 만듭니다.
+               let data = {'username': username, 'comment': comment, 'memoId': memoId};
+               //alert(commentId);
+
+               // 4. data를 전달합니다.
+               $.ajax({
+                    type: "PUT",
+                    url: `/api/comment/${commentId}`,
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                         alert('댓글 변경에 성공하였습니다.');
+                    }
+               });
+          }
+
+
+          function deleteComment(commentId) {
+
+               //let commentId = $(`#comment-id`).val();
+
+               $.ajax({
+                    type: "DELETE",
+                    url: `/api/comment/${commentId}`,
+                    success: function (response) {
+                         alert('댓글 삭제에 성공하였습니다.');
+                    }
+               })
+          }
+
      </script>
 </head>
 
@@ -378,7 +453,7 @@
                                                   <div class="wow fadeInUp" data-wow-delay="0.2s">
                                                        <form id = "contact-form">
                                                             <div class="col-md-4 col-sm-4">
-                                                                 <input type="text" id="titlearea" class="te-edit form-control" name="title"></textarea>
+                                                                 <input type="text"id="titlearea" class="te-edit form-control" name="title"></textarea>
                                                             </div>
                                                             <div class="col-md-12 col-sm-12">
                                                                  <textarea id="textarea" class="te-edit form-control" name="contents" rows="20"></textarea>
@@ -400,16 +475,16 @@
           <div class="container">
                <div class="row">
                     <div class="footer">
-                         <img id="edit-btn" onclick="editPost('1')" class="icon-start-edit" src="/images/edit.png" alt="">
-                         <img id="delete-btn" onclick="deleteOne('1')" class="icon-delete" src="/images/delete.png" alt="">
-                         <img id="submit-btn" onclick="submitEdit('1')" class="icon-end-edit" src="/images/done.png" alt="">
+                         <img id="edit-btn" onclick="editPost()" class="icon-start-edit" src="/images/edit.png" alt="">
+                         <img id="delete-btn" onclick="deleteOne()" class="icon-delete" src="/images/delete.png" alt="">
+                         <img id="submit-btn" onclick="submitEdit()" class="icon-end-edit" src="/images/done.png" alt="">
                     </div>
                </div>
           </div>
      </section>
 </div>
 <!-- CONTACT SECTION -->
-<section id="comment">
+<section id="leave-comment">
      <div class="container">
           <div class="row">
 
@@ -424,10 +499,10 @@
                     <div class="wow fadeInUp" data-wow-delay="0.2s">
                          <form id="comment-form">
                               <div class="col-md-4 col-sm-4 comment-control">
-                                   <input type="text" class="form-control comment-control" th:id="'comment-username-'+${id}" name="name" placeholder="Name">
+                                   <input type="text" class="form-control comment-control" th:id="'comment-username-'+${memoId}" name="name" placeholder="Name">
                               </div>
                               <div class="col-md-12 col-sm-12 comment-control">
-                                   <textarea class="form-control comment-control" th:id="'comment-contents-'+${id}" rows="5" name="message" placeholder="Message"></textarea>
+                                   <textarea class="form-control comment-control" th:id="'comment-contents-'+${memoId}" rows="5" name="message" placeholder="Message"></textarea>
                               </div>
                               <div class="col-md-offset-9 col-md-3 col-sm-offset-3 col-sm-6 comment-control">
                                    <button onclick="writeComment()" id="submit" type="button" class="form-control comment-control" name="submit">Send Message</button>

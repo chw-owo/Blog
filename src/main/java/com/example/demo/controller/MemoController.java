@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.comment.Comment;
+import com.example.demo.domain.comment.CommentRepository;
 import com.example.demo.domain.memo.Memo;
 import com.example.demo.domain.memo.MemoRepository;
 import com.example.demo.domain.memo.MemoRequestDto;
@@ -19,6 +21,7 @@ public class MemoController {
 
     private final MemoRepository memoRepository;
     private final MemoService memoService;
+    private final CommentRepository commentRepository;
 
     @PostMapping("/api/memos")
     public Memo createMemo(@RequestBody MemoRequestDto requestDto) {
@@ -46,7 +49,7 @@ public class MemoController {
         Optional<Memo> memo = memoRepository.findById(Id);
 
         ModelAndView modelAndView = new ModelAndView("detail.html");
-        modelAndView.addObject("id",memo.get().getId());
+        modelAndView.addObject("memoId",memo.get().getId());
         modelAndView.addObject("title", memo.get().getTitle());
         modelAndView.addObject("contents", memo.get().getContents());
 
