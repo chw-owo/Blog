@@ -41,7 +41,7 @@
         // 사용자가 내용을 올바르게 입력하였는지 확인합니다.
         function isValidContents(contents) {
             if (contents == '') {
-                alert('내용을 입력해주세요');
+                alert('입력되지 않은 항목이 있습니다.');
                 return false;
             }
             if (contents.trim().length > 140) {
@@ -74,13 +74,20 @@
         function writePost() {
             // 1. 작성한 메모를 불러옵니다.
             let title = $('#title').val();
+            let username = $('#username').val();
             let contents = $('#contents').val();
             // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+            if (isValidContents(title) == false) {
+                return;
+            }
+            if (isValidContents(username) == false) {
+                return;
+            }
             if (isValidContents(contents) == false) {
                 return;
             }
             // 4. 전달할 data JSON으로 만듭니다.
-            let data = {'title': title, 'contents': contents};
+            let data = {'title': title, 'username': username, 'contents': contents};
 
             // 5. POST /api/memos 에 data를 전달합니다.
             $.ajax({
@@ -144,6 +151,7 @@
                     <form id="contact-form">
                         <div class="col-md-4 col-sm-4">
                             <input type="text" class="form-control" id="title" name="title" placeholder="title">
+                            <input type="text" class="form-control" id="username" name="title" placeholder="username">
                         </div>
                         <div class="col-md-12 col-sm-12">
                             <textarea class="form-control" rows="20" id="contents" name="contents" placeholder="content"></textarea>

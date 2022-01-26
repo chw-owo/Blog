@@ -226,7 +226,7 @@
           // 사용자가 내용을 올바르게 입력하였는지 확인합니다.
           function isValidContents(contents) {
                if (contents == '') {
-                    alert('내용을 입력해주세요');
+                    alert('입력되지 않은 항목이 있습니다.');
                     return false;
                }
                if (contents.trim().length > 140) {
@@ -465,8 +465,9 @@
                <div class="row">
                     <div class="col-md-8 col-sm-8">
                          <div id ="contents-area" class="text contents-area">
-                              <h1 id="contents-text" class="detailtitle title" >[[${title}]]</h1>
-                              <h3 id="contents-title" class="detailcontents contents" >[[${contents}]]</h3>
+                              <h1 id="contents-title" class="detailtitle title" >[[${title}]]</h1>
+                              <h3 id="contents-username" class="username" >[[${memoUsername}]]</h3>
+                              <h3 id="contents-text" class="detailcontents contents" >[[${contents}]]</h3>
                          </div>
                          <div id="editarea" class="edit">
                               <section id="contact">
@@ -478,6 +479,7 @@
                                                        <form id = "contact-form">
                                                             <div class="col-md-4 col-sm-4">
                                                                  <input type="text"id="titlearea" class="te-edit form-control" name="title"></textarea>
+                                                                 <div class="username" >[[${memoUsername}]]</div>
                                                             </div>
                                                             <div class="col-md-12 col-sm-12">
                                                                  <textarea id="textarea" class="te-edit form-control" name="contents" rows="20"></textarea>

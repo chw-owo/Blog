@@ -39,6 +39,7 @@ public class MemoController {
 
         ModelAndView modelAndView = new ModelAndView("detail.html");
         modelAndView.addObject("memoId",memo.get().getId());
+        modelAndView.addObject("memoUsername",memo.get().getUsername());
         modelAndView.addObject("title", memo.get().getTitle());
         modelAndView.addObject("contents", memo.get().getContents());
 
