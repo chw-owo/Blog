@@ -96,11 +96,6 @@
                font-family: 'Spoqa Han Sans';
           }
 
-          .contents-area{
-               /*position: absolute;*/
-               /*top: 0px;*/
-               /*right: 0px;*/
-          }
 
           .footer {
                position: relative;
@@ -148,9 +143,10 @@
                display: none;
                height: 50px;
           }
-          .comment-id{
+          .box{
+               border-bottom-color: #f2f2f2 !important;
+               box-shadow: #9d9d9d;
           }
-
 
      </style>
 
@@ -197,8 +193,8 @@
                         <div class="wow fadeInUp section-title contents" data-wow-delay="0.2s">
                             <div id="comment-area-${commentId}" class = "comment-area">
                                  <div id="1-contents" class="text title">
-                                     <div class="username-${commentId}">${username}</div>
-                                     <div class="comment-${commentId}">${comment}</div>
+                                     <div id="username-${commentId}">${username}</div>
+                                     <div id="comment-${commentId}">${comment}</div>
                                  </div>
                             </div>
                             <form id="comment-edit-area-${commentId}" class ="comment-edit-area">
@@ -206,7 +202,7 @@
                                         <input type="text" id="edit-username-${commentId}" class="te-edit form-control comment-control" name="title">
                                    </div>
                                    <div class="col-md-12 col-sm-12 comment-control">
-                                        <textarea id="edit-comment-${commentId}" class="te-edit form-control comment-control" name="contents" rows="3"></textarea>
+                                        <textarea id="edit-comment-${commentId}" class="te-edit form-control comment-control box" name="contents" rows="3"></textarea>
 
                                    </div>
                             </form>
@@ -285,22 +281,47 @@
                     data: JSON.stringify(data),
                     success: function (response) {
                          alert('메시지 변경에 성공하였습니다.');
+                         window.location.reload();
                     }
                });
           }
 
 
           function deleteOne() {
+
                let memoId = [[${memoId}]];
+               deleteAllComment(memoId);
+
                $.ajax({
                     type: "DELETE",
                     url: `/api/memos/${memoId}`,
                     success: function (response) {
-                         alert('메시지 삭제에 성공하였습니다.');
                          window.location.assign("/");
+                         alert('메시지 삭제에 성공하였습니다.');
                     }
                })
           }
+
+          function deleteAllComment(memoId){
+
+               $.ajax({
+                    type: 'GET',
+                    url: "/api/comment",
+                    contentType: "application/json",
+                    success: function (response) {
+
+                         for (let i = 0; i < response.length; i++) {
+                              let message = response[i];
+                              let memoId = message['memoId'];
+                              if(memoId == [[${memoId}]]){
+                                   let commentId = message['id'];
+                                   deleteComment(commentId);
+                              }
+                         }
+                    }
+               })
+          }
+
 
           //============================================================
 
@@ -336,8 +357,8 @@
 
           function editComment(commentId) {
                showCommentEdits(commentId);
-               let username = $(`#username-${commentId}`).val();
-               let comment = $(`#comment-${commentId}`).val();
+               let username = $(`#username-${commentId}`).text().trim();
+               let comment = $(`#comment-${commentId}`).text().trim();
                $(`#edit-username-${commentId}`).val(username);
                $(`#edit-comment-${commentId}`).val(comment);
           }
@@ -349,6 +370,7 @@
 
                $(`#comment-area-${commentId}`).hide();
                $(`#comment-edit-btn`).hide();
+               $(`#comment-container`).hide();
           }
 
           function submitComment(commentId) {
@@ -356,7 +378,6 @@
                // 1. 작성 대상 메모의 title과 contents 를 확인합니다.
                let username = $(`#edit-username-${commentId}`).val();
                let comment = $(`#edit-comment-${commentId}`).val();
-               //let commentId = $(`#comment-id`).val();
 
                // 2. 작성한 메모가 올바른지 isValmemoIdContents 함수를 통해 확인합니다.
                if (isValidContents(username) == false) {
@@ -378,6 +399,7 @@
                     data: JSON.stringify(data),
                     success: function (response) {
                          alert('댓글 변경에 성공하였습니다.');
+                         window.location.reload();
                     }
                });
           }
@@ -385,13 +407,11 @@
 
           function deleteComment(commentId) {
 
-               //let commentId = $(`#comment-id`).val();
-
                $.ajax({
                     type: "DELETE",
                     url: `/api/comment/${commentId}`,
                     success: function (response) {
-                         alert('댓글 삭제에 성공하였습니다.');
+                         window.location.reload();
                     }
                })
           }
@@ -485,7 +505,7 @@
 </div>
 <!-- CONTACT SECTION -->
 <section id="leave-comment">
-     <div class="container">
+     <div id="comment-container" class="container">
           <div class="row">
 
                <div class="col-md-12 col-sm-12">

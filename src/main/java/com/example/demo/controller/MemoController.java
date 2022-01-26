@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.comment.Comment;
-import com.example.demo.domain.comment.CommentRepository;
 import com.example.demo.domain.memo.Memo;
 import com.example.demo.domain.memo.MemoRepository;
 import com.example.demo.domain.memo.MemoRequestDto;
@@ -16,12 +14,10 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-
 public class MemoController {
 
     private final MemoRepository memoRepository;
     private final MemoService memoService;
-    private final CommentRepository commentRepository;
 
     @PostMapping("/api/memos")
     public Memo createMemo(@RequestBody MemoRequestDto requestDto) {
@@ -30,17 +26,10 @@ public class MemoController {
     }
 
     @GetMapping("/postingpage")
-    public ModelAndView getTest () {
+    public ModelAndView getPostpage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("post.html");
         return modelAndView;
-    }
-
-    @PostMapping("/postingpage")
-    public Memo createTest (@RequestBody MemoRequestDto requestDto) {
-
-        Memo memo = new Memo(requestDto);
-        return memoRepository.save(memo);
     }
 
     @GetMapping("/detailpage/{id}")
@@ -65,13 +54,13 @@ public class MemoController {
     }
 
     @DeleteMapping("/api/memos/{id}")
-    public Long deleteMemo(@PathVariable Long id) {
+    public Long deleteMemo(@PathVariable("id") Long id) {
         memoRepository.deleteById(id);
         return id;
     }
 
     @PutMapping("/api/memos/{id}")
-    public Memo editMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto) {
+    public Memo editMemo(@PathVariable("id") Long id, @RequestBody MemoRequestDto requestDto) {
         Memo memo = memoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("no such data"));
 
