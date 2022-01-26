@@ -87,7 +87,7 @@
                 return;
             }
             // 4. 전달할 data JSON으로 만듭니다.
-            let data = {'title': title, 'username': username, 'contents': contents};
+            let data = {'title': title, 'contents': contents, 'username': username};
 
             // 5. POST /api/memos 에 data를 전달합니다.
             $.ajax({
@@ -151,7 +151,7 @@
                     <form id="contact-form">
                         <div class="col-md-4 col-sm-4">
                             <input type="text" class="form-control" id="title" name="title" placeholder="title">
-                            <input type="text" class="form-control" id="username" name="title" placeholder="username">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="username">
                         </div>
                         <div class="col-md-12 col-sm-12">
                             <textarea class="form-control" rows="20" id="contents" name="contents" placeholder="content"></textarea>

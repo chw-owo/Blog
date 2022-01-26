@@ -42,7 +42,6 @@ public class MemoController {
         modelAndView.addObject("memoUsername",memo.get().getUsername());
         modelAndView.addObject("title", memo.get().getTitle());
         modelAndView.addObject("contents", memo.get().getContents());
-        modelAndView.addObject("memoDate",memo.get().getCreateDate());
         modelAndView.addObject("memoCreatedAt",memo.get().getCreatedAt());
         modelAndView.addObject("memoModifiedAt", memo.get().getModifiedAt());
 
