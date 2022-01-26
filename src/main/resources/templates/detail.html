@@ -199,17 +199,19 @@
                             <div id="comment-area-${commentId}" class = "comment-area">
                                  <div id="1-contents" class="text title">
                                      <div id="comment-${commentId}">${comment}</div>
+                                     <div class="username" > 작성자: ${username} 최종작성일: ${modifiedAt}</div>
                                  </div>
                             </div>
                             <form id="comment-edit-area-${commentId}" class ="comment-edit-area">
-                                   <div class="col-md-4 col-sm-4 comment-control">
-                                        <input type="text" id="edit-username-${commentId}" class="te-edit form-control comment-control" name="title">
-                                   </div>
                                    <div class="col-md-12 col-sm-12 comment-control">
+                                        <textarea id="edit-username-${commentId}"class="te-edit form-control comment-control box username" name="contents" placeholder="${username}"></textarea>
                                         <textarea id="edit-comment-${commentId}" class="te-edit form-control comment-control box" name="contents" rows="3"></textarea>
+                                        <div class="username" > 최종작성일: ${modifiedAt}</div>
                                    </div>
                             </form>
-                            <div class="username" > 작성자: ${username} 최종작성일: ${modifiedAt}</div>
+
+
+
                             <div class="footer">
                               <img id="comment-edit-btn" onclick="editComment(${commentId})" class="icon-start-edit" src="/images/edit.png" alt="">
                               <img id="comment-delete-btn" onclick="deleteOneComment(${commentId})" class="icon-delete" src="/images/delete.png" alt="">
@@ -242,9 +244,12 @@
           function editPost() {
                showEdits();
                let contents = $(`#contents-text`).text().trim();
-               let title = $(`#contents-title`).text().trim();
+               let title = $(`#contents-title`).text().trim()
+               let username = $(`#contents-username`).text().trim();
+
                $(`#textarea`).val(contents);
                $(`#titlearea`).val(title);
+               $(`#usernamearea`).val(username);
           }
 
           function showEdits() {
@@ -264,6 +269,7 @@
                // 1. 작성 대상 메모의 title과 contents 를 확인합니다.
                let title = $(`#titlearea`).val().trim();
                let contents = $(`#textarea`).val().trim();
+               let username = $(`#usernamearea`).val().trim();
 
                let memoId = [[${memoId}]];
 
@@ -274,9 +280,12 @@
                if (isValidContents(title) == false) {
                     return;
                }
+               if (isValidContents(username) == false) {
+                    return;
+               }
 
                // 3. 전달할 data JSON으로 만듭니다.
-               let data = {'title': title, 'contents': contents};
+               let data = {'title': title, 'contents': contents, 'username': username};
 
                // 4. data를 전달합니다.
                $.ajax({
@@ -383,16 +392,15 @@
                let username = $(`#edit-username-${commentId}`).val();
                let comment = $(`#edit-comment-${commentId}`).val();
 
-               // 2. 작성한 메모가 올바른지 isValmemoIdContents 함수를 통해 확인합니다.
-               if (isValidContents(username) == false) {
-                    return;
-               }
+
+               // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+
                if (isValidContents(comment) == false) {
                     return;
                }
 
                // 3. 전달할 data JSON으로 만듭니다.
-               let data = {'username': username, 'comment': comment, 'memoId': memoId};
+               let data = {'username':username, 'comment': comment, 'memoId': memoId};
                //alert(commentId);
 
                // 4. data를 전달합니다.
@@ -413,6 +421,7 @@
                deleteComment(commentId);
                window.location.reload();
           }
+
           function deleteComment(commentId) {
 
                $.ajax({
@@ -468,10 +477,11 @@
                <div class="row">
                     <div class="col-md-8 col-sm-8">
                          <div id ="contents-area" class="text contents-area">
-                              <h1 id="contents-title" class="detailtitle title" >[[${title}]]</h1>
-                              <div th:if="${memoCreatedAt == memoModifiedAt}" class="username" > 작성자: [[${memoUsername}]] 작성일: [[${memoCreatedAt}]]</div>
-                              <div th:unless="${memoCreatedAt == memoModifiedAt}" class="username" > 작성자: [[${memoUsername}]] 작성일: [[${memoCreatedAt}]] 수정일: [[${memoModifiedAt}]]</div>
-                              <h3 id="contents-text" class="detailcontents contents" >[[${contents}]]</h3>
+                              <h1 id="contents-title" class="title" >[[${title}]]</h1>
+                              <div th:if="${memoCreatedAt == memoModifiedAt}" class="username" > 작성일: [[${memoCreatedAt}]]</div>
+                              <div th:unless="${memoCreatedAt == memoModifiedAt}" class="username" > 작성일: [[${memoCreatedAt}]] 수정일: [[${memoModifiedAt}]]</div>
+                              <h3 id="contents-username" class="contents username" >[[${memoUsername}]]</h3>
+                              <h3 id="contents-text" class="contents" >[[${contents}]]</h3>
                          </div>
                          <div id="editarea" class="edit">
                               <section id="contact">
@@ -483,15 +493,14 @@
                                                        <form id = "contact-form">
                                                             <div class="col-md-4 col-sm-4">
                                                                  <input type="text"id="titlearea" class="te-edit form-control" name="title"></textarea>
-                                                                 {% if memoCreatedAt == memoModifiedAt %}
-                                                                      <h3 class="username" > 작성자: [[${memoUsername}]] 작성일: [[${memoCreatedAt}]] </h3>
-                                                                 {% else %}
-                                                                      <h3 class="username" > 작성자: [[${memoUsername}]] 작성일: [[${memoCreatedAt}]] 수정일: [[${memoModifiedAt}]] </h3>
-                                                                 {% end if %}
+                                                                 <input type="text"id="usernamearea" class="te-edit form-control" name="username"></textarea>
+
+
+                                                                 <div th:if="${memoCreatedAt == memoModifiedAt}" class="username" >작성일: [[${memoCreatedAt}]]</div>
+                                                                 <div th:unless="${memoCreatedAt == memoModifiedAt}" class="username" >작성일: [[${memoCreatedAt}]] 수정일: [[${memoModifiedAt}]]</div>
                                                             </div>
                                                             <div class="col-md-12 col-sm-12">
                                                                  <textarea id="textarea" class="te-edit form-control" name="contents" rows="20"></textarea>
-
                                                             </div>
                                                        </form>
                                                   </div>
