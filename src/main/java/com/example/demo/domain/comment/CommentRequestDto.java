@@ -9,5 +9,5 @@ import lombok.Setter;
 public class CommentRequestDto {
     private String username;
     private String comment;
-    //private Long memoId;
+    private Long memoId;
 }

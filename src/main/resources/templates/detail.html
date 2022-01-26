@@ -141,6 +141,10 @@
           .comment-control{
                padding-bottom: 15px;
           }
+          .work-container{
+               height: 50px;
+          }
+
 
      </style>
 
@@ -155,7 +159,7 @@
           // 메모를 불러와서 보여줍니다.
           function getComments() {
                // 1. 기존 메모 내용을 지웁니다.
-               //$('#cards-box').empty();
+               $('#comment-box').empty();
                // 2. 메모 목록을 불러와서 HTML로 붙입니다.
                $.ajax({
                     type: 'GET',
@@ -165,9 +169,12 @@
 
                          for (let i = 0; i < response.length; i++) {
                               let message = response[i];
-                              let username = message['username'];
-                              let comment = message['comment'];
-                              addHTML(username, comment);
+                              let memoId = message['memoId'];
+                              if(memoId == [[${id}]]){
+                                   let username = message['username'];
+                                   let comment = message['comment'];
+                                   addHTML(username, comment);
+                              }
                          }
                     }
                })
@@ -286,9 +293,9 @@
                })
           }
           function writeComment(){
-               let id = [[${id}]];
-               let username = $(`#comment-username-${id}`).val().trim();
-               let comment = $(`#comment-contents-${id}`).val().trim();
+               let memoId = [[${id}]];
+               let username = $(`#comment-username-${memoId}`).val().trim();
+               let comment = $(`#comment-contents-${memoId}`).val().trim();
 
                // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
                if (isValidContents(comment) == false) {
@@ -299,7 +306,7 @@
                }
 
                // 3. 전달할 data JSON으로 만듭니다.
-               let data = {'username': username, 'comment': comment};
+               let data = {'username': username, 'comment': comment, 'memoId': memoId};
 
                // 4. data를 전달합니다.
                $.ajax({

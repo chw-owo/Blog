@@ -18,15 +18,15 @@ public class Comment extends Timestamped { // 생성,수정 시간을 자동으�
     @Id
     private Long id;
 
-//    @JoinColumn(name = "memoId")
-//    @ManyToOne(fetch=FetchType.EAGER)
-//    private Memo memo;
-
     @Column(nullable = false)
     private String username;
 
     @Column(nullable = false)
     private String comment;
+
+    @Column(nullable = false)
+    private Long memoId;
+
 
     private LocalDateTime createDate;
 
@@ -35,18 +35,21 @@ public class Comment extends Timestamped { // 생성,수정 시간을 자동으�
         this.createDate = LocalDateTime.now();
     }
 
-    public Comment(String username, String comment) {
+    public Comment(String username, String comment, Long memoId) {
         this.username = username;
         this.comment = comment;
+        this.memoId = memoId;
     }
 
     public Comment(CommentRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.comment = requestDto.getComment();
+        this.memoId = requestDto.getMemoId();
     }
 
     public void update(CommentRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.comment = requestDto.getComment();
+        this.memoId = requestDto.getMemoId();
     }
 }
