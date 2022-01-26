@@ -209,7 +209,7 @@
 
                             <div class="footer">
                               <img id="comment-edit-btn" onclick="editComment(${commentId})" class="icon-start-edit" src="/images/edit.png" alt="">
-                              <img id="comment-delete-btn" onclick="deleteComment(${commentId})" class="icon-delete" src="/images/delete.png" alt="">
+                              <img id="comment-delete-btn" onclick="deleteOneComment(${commentId})" class="icon-delete" src="/images/delete.png" alt="">
                               <img id="comment-submit-btn" onclick="submitComment(${commentId})" class="icon-end-edit" src="/images/done.png" alt="">
                             </div>
 
@@ -406,13 +406,16 @@
           }
 
 
+          function deleteOneComment(commentId){
+               deleteComment(commentId);
+               window.location.reload();
+          }
           function deleteComment(commentId) {
 
                $.ajax({
                     type: "DELETE",
                     url: `/api/comment/${commentId}`,
                     success: function (response) {
-                         window.location.reload();
                     }
                })
           }
