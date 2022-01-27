@@ -199,12 +199,14 @@
                             <div id="comment-area-${commentId}" class = "comment-area">
                                  <div id="1-contents" class="text title">
                                      <div id="comment-${commentId}">${comment}</div>
-                                     <div class="username" > 작성자: ${username} 최종작성일: ${modifiedAt}</div>
+                                     <div id="username-${commentId}">${username}</div>
+
+                                     <div class="username" >최종작성일: ${modifiedAt}</div>
                                  </div>
                             </div>
                             <form id="comment-edit-area-${commentId}" class ="comment-edit-area">
                                    <div class="col-md-12 col-sm-12 comment-control">
-                                        <textarea id="edit-username-${commentId}"class="te-edit form-control comment-control box username" name="contents" placeholder="${username}"></textarea>
+                                        <textarea id="edit-username-${commentId}"class="te-edit form-control comment-control box username" name="contents"></textarea>
                                         <textarea id="edit-comment-${commentId}" class="te-edit form-control comment-control box" name="contents" rows="3"></textarea>
                                         <div class="username" > 최종작성일: ${modifiedAt}</div>
                                    </div>
